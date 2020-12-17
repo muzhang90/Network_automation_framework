@@ -1,0 +1,13 @@
+#Juniper show chassis hardware models textFsm
+Value Filldown RTRNAME (\S+)
+Value Required ITEM ((FPM)(\s+Board)?|(Midplane)(\s+\d+)?|(Fan Tray)(\s+\d+)?|PEM\s+\d+|Routing Engine(\s+\d+)?|CB\s+\d+|FPC\s+\d+|\s+[PM]IC\s+\d+|.*PSM\s+\d+|SIB\s+\d+|SFB\s+\d+|ADC\s+\d+|CCG\s+\d+|PDU\s+\d+|Fan Extender)
+Value VERSION ((REV|Rev)\s+\d{2})
+Value PN (\d{3}-\d{6})
+Value SN (\S+)
+Value MODELNUMBER (\S+)
+
+Start
+  ^\S+@${RTRNAME}>.*
+  ^Hardware\s+inventory: -> NoRecord
+  ^Item\s+Version\s+Part\s+number\s+Serial\snumber\s+FRU\s+model\s+number -> NoRecord
+  ^${ITEM}\s+(${VERSION})?\s+(${PN})?\s+(${SN})?\s+${MODELNUMBER} -> Record
